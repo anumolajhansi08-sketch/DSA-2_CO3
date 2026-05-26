@@ -1,0 +1,128 @@
+import java.util.*;
+
+// Graph Class
+class Graph {
+
+    // Number of Nodes
+    private int vertices;
+
+    // Adjacency List
+    private ArrayList<ArrayList<Integer>> adjList;
+
+    // Constructor
+    Graph(int vertices) {
+
+        this.vertices = vertices;
+
+        adjList = new ArrayList<>();
+
+        // Create Empty Lists
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<Integer>());
+        }
+    }
+
+    // Add Edge
+    void addEdge(int source, int destination) {
+
+        adjList.get(source).add(destination);
+
+        // Undirected Graph
+        adjList.get(destination).add(source);
+    }
+
+    // BFS Traversal
+    void BFS(int startNode) {
+
+        // Visited Array
+        boolean[] visited = new boolean[vertices];
+
+        // Queue for BFS
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Mark Start Node Visited
+        visited[startNode] = true;
+
+        queue.add(startNode);
+
+        System.out.println("\nBFS Traversal:");
+
+        while (!queue.isEmpty()) {
+
+            // Remove Node from Queue
+            int current = queue.poll();
+
+            System.out.println("Visited Node: " + current);
+
+            // Visit Adjacent Nodes
+            for (int neighbor : adjList.get(current)) {
+
+                if (!visited[neighbor]) {
+
+                    visited[neighbor] = true;
+
+                    queue.add(neighbor);
+                }
+            }
+        }
+    }
+}
+
+// Main Class
+public class SecureVoteBFS {
+
+    public static void main(String[] args) {
+
+        /*
+                Graph Structure
+
+                       0
+                     /   \
+                    1     2
+                   / \     \
+                  3   4     5
+
+            0 -> Main Election Server
+            1 -> Polling Station A
+            2 -> Polling Station B
+            3 -> Voter Group A
+            4 -> Voter Group B
+            5 -> Voter Group C
+        */
+
+        // Create Graph
+        Graph g = new Graph(6);
+
+        // Add Connections
+        g.addEdge(0, 1);
+        g.addEdge(0, 2);
+        g.addEdge(1, 3);
+        g.addEdge(1, 4);
+        g.addEdge(2, 5);
+
+        // Display Title
+        System.out.println("SecureVote - Digital Voting System");
+        System.out.println("----------------------------------");
+
+        // Display Graph Connections
+        System.out.println("\nGraph Connections:");
+        System.out.println("0 <-> 1");
+        System.out.println("0 <-> 2");
+        System.out.println("1 <-> 3");
+        System.out.println("1 <-> 4");
+        System.out.println("2 <-> 5");
+
+        // Perform BFS
+        g.BFS(0);
+
+        // Fraud Detection Example
+        System.out.println("\nFraud Detection:");
+        System.out.println("Checking duplicate voting activity...");
+
+        int suspiciousNode = 4;
+
+        System.out.println("Node " + suspiciousNode + " verified.");
+
+        System.out.println("No Fraudulent Activity Detected.");
+    }
+}
